@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .child {
+      width: 100px;
+      margin: 0 auto;
+    }
+
+    .child2 {
+      display: table;
+      margin: 0 auto;
+    }
+
+    .parent {
+      text-align: center;
+    }
+
+    .child1 {
+      display: inline-block;
+    }
+
+    .parent1 {
+      position: relative;
+      height: 20px;
+    }
+
+    .child3 {
+      position: absolute;
+      left: 50%;
+      width: 160px;
+      margin-left: -80px;
+    }
+
+    .parent2 {
+      position: relative;
+      height: 20px;
+    }
+
+    .child4 {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .parent3 {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="child">定宽水平居中</div>
+  <div class="child2">不定宽水平居中</div>
+  <div class="parent">
+    <div class="child1">兼容性最佳</div>
+  </div>
+  <div class="parent1">
+    <div class="child3">absolute+margin-left</div>
+  </div>
+  <div class="parent2">
+    <div class="child4">absolute+transform</div>
+  </div>
+  <div class="parent3">
+    <div class="child5">flex+justify-content</div>
+  </div>
+</body>
+
+</html>

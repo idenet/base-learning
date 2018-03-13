@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="wrapper"></div>
+  <script src="util.js"></script>
+  <script>
+    class likeButton {
+      constructor() {
+        this.state = {
+          isliked: false
+        }
+      }
+      changeLikeText() {
+        const likeText = document.querySelector('.like-text')
+        this.state.isliked = !this.state.isliked
+        // Element.innerHTML 属性设置或获取HTML语法表示的元素的后代
+        likeText.innerHTML = this.state.isliked ? '取消' : '点赞'
+      }
+      render() {
+        this.el = createDomFromString(
+          `
+         <button class="like-btn">
+          <span class="like-text">点赞</span>
+          <span>👍</span>
+        </button>
+         `
+        )
+        this.el.addEventListener('click', this.changeLikeText.bind(this), false)
+        return this.el
+      }
+    }
+    const wrapper = document.querySelector('.wrapper')
+    const botton = new likeButton()
+    // 插入是dom
+    wrapper.appendChild(botton.render())
+  </script>
+</body>
+
+</html>

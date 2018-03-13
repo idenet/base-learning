@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="wrapper"></div>
+  <script src="util.js"></script>
+  <script>
+    class LikeButton {
+      constructor() {
+        this.state = {
+          isLiked: false
+        }
+      }
+      changeLikeText() {
+        this.setState({
+          isLiked: !this.state.isLiked
+        })
+      }
+      setState(state) {
+        const oldEl = this.el
+        this.state = state
+        this.el = this.render()
+        if (this.onStateChange) {
+          this.onStateChange(oldEl, this.el)
+        }
+      }
+      render() {
+        this.el = createDomFromString(
+          `
+         <button class="like-btn">
+          <span class="like-text">${this.state.isLiked ? '取消' : '点赞'}</span>
+          <span>👍</span>
+        </button>
+         `
+        )
+        this.el.addEventListener('click', this.changeLikeText.bind(this), false)
+        return this.el
+      }
+    }
+    const wrapper = document.querySelector('.wrapper')
+    const botton = new LikeButton()
+    wrapper.appendChild(botton.render())
+    botton.onStateChange = (oldEl, newEl) => {
+      wrapper.insertBefore(newEl, oldEl) // 插入新元素
+      wrapper.removeChild(oldEl) // 删除旧元素
+    }
+  </script>
+</body>
+
+</html>
