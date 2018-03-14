@@ -1,40 +1,56 @@
-import React from 'react'
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import registerServiceWorker from './registerServiceWorker'
 
-class Computer extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      status: 'off'
-    }
-  }
-  clickComputer() {
-    this.setState({
-      status: this.state.status === 'off' ? 'on' : 'off'
-    })
+class Input extends Component {
+  handleNumChange(event) {
+    this.props.numSubmit && this.props.numSubmit(event.target.value)
   }
   render() {
     return (
       <div>
-        <button onClick={this.clickComputer.bind(this)}>开关</button>
-        <Screen
-          showContent={this.state.status === 'on' ? '显示器亮了' : '显示器关了'}
-        />
+        <input type="number" onChange={this.handleNumChange.bind(this)} />
       </div>
     )
   }
 }
 
-class Screen extends React.Component {
+class PercentageShower extends Component {
   static defaultProps = {
-    showContent: '无内容'
+    acceptNum: 0
   }
+
   render() {
-    return <div className="screen">{this.props.showContent}</div>
+    return (
+      <div>
+        <div>-{(this.props.acceptNum * 100).toFixed(2) + '%'}-</div>
+      </div>
+    )
   }
 }
 
-ReactDOM.render(<Computer />, document.getElementById('root'))
+class PercentageApp extends Component {
+  constructor() {
+    super()
+    this.state = {
+      number: 0
+    }
+  }
+  handleNumSubmit(content) {
+    this.setState({
+      number: content
+    })
+  }
+  render() {
+    return (
+      <div>
+        <Input numSubmit={this.handleNumSubmit.bind(this)} />
+        <PercentageShower acceptNum={this.state.number} />
+      </div>
+    )
+  }
+}
+
+ReactDOM.render(<PercentageApp />, document.getElementById('root'))
 registerServiceWorker()
