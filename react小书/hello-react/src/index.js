@@ -1,56 +1,38 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
 import './index.css'
 import registerServiceWorker from './registerServiceWorker'
 
-class Input extends Component {
-  handleNumChange(event) {
-    this.props.numSubmit && this.props.numSubmit(event.target.value)
+class Title extends Component {
+  static contextTypes = {
+    themeColor: PropTypes.string
   }
   render() {
-    return (
-      <div>
-        <input type="number" onChange={this.handleNumChange.bind(this)} />
-      </div>
-    )
+    return <h1 style={{ color: this.context.themeColor }}>React.js 小书标题</h1>
   }
 }
 
-class PercentageShower extends Component {
-  static defaultProps = {
-    acceptNum: 0
+class Index extends Component {
+  static childContextTypes = {
+    themeColor: PropTypes.string
   }
-
-  render() {
-    return (
-      <div>
-        <div>-{(this.props.acceptNum * 100).toFixed(2) + '%'}-</div>
-      </div>
-    )
-  }
-}
-
-class PercentageApp extends Component {
   constructor() {
     super()
     this.state = {
-      number: 0
+      themeColor: 'red'
     }
   }
-  handleNumSubmit(content) {
-    this.setState({
-      number: content
-    })
+  getChildContext() {
+    return { themeColor: this.state.themeColor }
   }
   render() {
     return (
       <div>
-        <Input numSubmit={this.handleNumSubmit.bind(this)} />
-        <PercentageShower acceptNum={this.state.number} />
+        <Title />
       </div>
     )
   }
 }
-
-ReactDOM.render(<PercentageApp />, document.getElementById('root'))
+ReactDOM.render(<Index />, document.getElementById('root'))
 registerServiceWorker()

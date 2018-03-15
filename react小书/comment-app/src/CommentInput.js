@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
-
+import PropTypes from 'prop-types'
 export default class CommentInput extends Component {
+  static propTypes = {
+    onSubmit: PropTypes.func
+  }
   constructor() {
     super()
     this.state = {
@@ -8,22 +11,45 @@ export default class CommentInput extends Component {
       content: ''
     }
   }
-  usernameChange(event) {
+
+  componentWillMount() {
+    this._loadUsername()
+  }
+  componentDidMount() {
+    this.textarea.focus()
+  }
+
+  _loadUsername() {
+    const username = localStorage.getItem('username')
+    username && this.setState({ username })
+  }
+  _saveUsername(username) {
+    localStorage.setItem('username', username)
+  }
+
+  handleUsernameChange(event) {
     this.setState({
       username: event.target.value
     })
   }
-  contentChange(event) {
+  handleContentChange(event) {
     this.setState({
       content: event.target.value
     })
+  }
+  handleUsernameBlur(event) {
+    this._saveUsername(event.target.value)
   }
   /**
    * 父组件传过来的获取数据的函数
    */
   handleSubmit() {
-    const { username, content } = this.state
-    this.props.onSubmit && this.props.onSubmit({ username, content })
+    this.props.onSubmit &&
+      this.props.onSubmit({
+        username: this.state.username,
+        content: this.state.content,
+        createdTime: +new Date()
+      })
     this.setState({
       content: ''
     })
@@ -37,7 +63,8 @@ export default class CommentInput extends Component {
             <input
               type="text"
               value={this.state.username}
-              onChange={this.usernameChange.bind(this)}
+              onBlur={this.handleUsernameBlur.bind(this)}
+              onChange={this.handleUsernameChange.bind(this)}
             />
           </div>
         </div>
@@ -45,8 +72,9 @@ export default class CommentInput extends Component {
           <span className="comment-field-name">评论内容:</span>
           <div className="comment-field-input">
             <textarea
+              ref={textarea => (this.textarea = textarea)}
               value={this.state.content}
-              onChange={this.contentChange.bind(this)}
+              onChange={this.handleContentChange.bind(this)}
             />
           </div>
         </div>
