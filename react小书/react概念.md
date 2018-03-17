@@ -65,3 +65,13 @@ const loadAndRefresh = url => WrappedComponent => {
 ### 为什么需要纯函数
 
 纯函数是非常靠谱的，你给它什么，它吐出什么，它不会对其他产生影响，那么测试和 debug 就会非常方便
+
+## Smart 组件和 Dumb 组件
+
+### Dumb 组件
+
+只接受`props`并且渲染确定结果的叫做`dumb`组件 ---> 根据`props`进行渲染
+
+### smart 组件
+
+它专门做数据相关的应用逻辑，做 `ajax` 请求，然后把数据通过 `props` 传递给`dumb`组件
