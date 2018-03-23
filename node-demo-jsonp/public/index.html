@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div>hello world</div>
+  <script>
+    function createScriptTag(src) {
+      let script = document.createElement('script')
+      script.setAttribute('type', 'text/javascript')
+      script.src = src
+      document.body.appendChild(script)
+    }
+
+    window.onload = function () {
+      createScriptTag('http://127.0.0.1:3002?format=jsonp&callback=dataJsonp')
+    }
+    function dataJsonp(data) {
+      console.log(data)
+    }
+  </script>
+</body>
+
+</html>
